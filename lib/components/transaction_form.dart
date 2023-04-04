@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'adaptative-text-field.dart';
+import 'adaptative_button.dart';
+
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime) onSubmit;
   const TransactionForm(this.onSubmit, {super.key});
@@ -52,17 +55,22 @@ class _TransactionFormState extends State<TransactionForm> {
               bottom: 10 + MediaQuery.of(context).viewInsets.bottom),
           child: Column(
             children: <Widget>[
-              TextField(
+              AdptativeTextField(
                 controller: _titleController,
-                decoration: const InputDecoration(labelText: 'Título'),
-                onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                keyboardType: TextInputType.text,
+                onSubmitted: () => FocusScope.of(context).nextFocus(),
+                decoration: const InputDecoration(
+                  labelText: 'Título',
+                ),
               ),
-              TextField(
+              AdptativeTextField(
                 controller: _valueController,
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
-                onSubmitted: (_) => _submitForm(),
-                decoration: const InputDecoration(labelText: 'Valor (R\$)'),
+                onSubmitted: () => _submitForm(),
+                decoration: const InputDecoration(
+                  labelText: 'Valor (R\$)',
+                ),
               ),
               SizedBox(
                 height: 70,
@@ -92,15 +100,9 @@ class _TransactionFormState extends State<TransactionForm> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  ElevatedButton(
+                  AdaptativeButton(
+                    label: 'Nova Transação',
                     onPressed: _submitForm,
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.purple),
-                      foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white),
-                    ),
-                    child: const Text('Nova Transação'),
                   ),
                 ],
               )
